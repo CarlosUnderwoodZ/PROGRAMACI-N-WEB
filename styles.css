@@ -1,0 +1,38 @@
+.link:link , .link:visited{
+	display: block;
+	text-decoration: none;
+	color:#FFF;
+	background-color: red;
+	font-weight: bold;
+	padding: 10px;
+	text-align: center;
+	border: 2px solid black;
+	border-radius: 5px;
+	width: 100px;
+	margin: 20px auto ; 
+}
+.pagina{
+	width: 600px;
+	margin: 0 auto;
+	background-color: darkslategray;
+}
+
+.parrafo h2{
+	background-color: darkseagreen;
+	margin: 0 auto;
+	padding: 10px
+}
+
+.parrafo p{
+	background-color: #008b8b;
+}
+p:first-of-type {
+	background-color: #008b8b;
+	font-style: italic;
+	font-weight: bold;
+}
+
+.imagen{
+	padding: 20px;
+	background-color: darkseagreen;
+}
