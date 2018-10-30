@@ -1,0 +1,225 @@
+* {
+	padding: 0;
+	margin: 0;
+	font-family: "Palatino", sans-serif;
+	background-color: white;
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+header {
+	width: 100%;
+	position: fixed;
+	z-index: 100;
+}
+
+.header-container{
+	display: flex;
+	justify-content: space-around;
+	background-color: #2EA490;
+}
+
+.botones{
+	width: 85%;
+	display: flex;
+	justify-content: center;
+	background-color: #2EA490;
+}
+
+.logotipo-container{
+	width: 40%;
+	padding-top: 20px;
+	background-color: #2EA490;
+}
+
+.vinculos{
+	display: flex;
+	justify-content: center;
+	background-color: #2EA490;
+}
+.vinculos a{
+	text-decoration: none;
+	background-color: #2EA490;
+}
+
+.botonActual{
+	margin: 0px;
+	padding: 35px 50px 15px 20px;
+	height: auto;
+	border-top: 5px solid #d8822f;
+	background-color: #2EA490;
+	color: white;
+	font-size: 20px;
+	font-weight: bolder;
+}
+
+.boton{
+	margin: 0px;
+	padding: 40px 50px 15px 20px;
+	color: white;
+	font-size: 20px;
+	font-weight: bolder;
+	background-color: #2EA490;
+	text-decoration-color: white;
+}
+
+.botonActual:hover, .boton:hover{
+	background-color: #1F6156;
+	color: white;
+}
+
+#inicio {
+	padding-top: 94px;
+	justify-content: center;
+	text-align:center;
+}
+
+#servicio{
+	padding-top: 100px;
+	justify-content: center;
+	text-align:center;
+}
+
+#inicio img{
+	width: 100%;
+}
+
+#servicio h1{
+	font-size: 40px;
+	font-weight: bold;
+	color: #2EA490;
+}
+
+#servicio em{
+	display: inline;
+	font-size: 40px;
+	font-weight: bold;
+	color: white;
+	background-color: #2EA490;
+}
+#servicio .servicioContenido{
+	width: 60%;
+	margin: 0px auto;
+}
+
+#servicio p{
+	font-family: 'Arial';
+	font-size: 22px;
+	color: #444;
+}
+
+#servicio strong{
+	font-size: 22px;
+	color: #0a86c3;
+}
+
+#servicio img{
+	width: 90%;
+}
+
+#empresa{
+	padding-top: 120px;
+	justify-content: center;
+	text-align:center;
+}
+
+
+#empresa div{
+	justify-content: center;
+	margin: 0px auto;
+}
+
+.fondoNegro{
+	text-align: center;
+	background-color: black;
+	padding: 10px;
+	justify-content: center;
+	display: flex;
+}
+
+.fondoNegro strong{
+	font-size: 30px;
+	background-color: black;
+	color: #0a86c3;
+}
+
+.fondoNegro p{
+	background-color: black;
+	width: 60%;
+	color: white;
+	font-size: 30px;
+	font-weight: bold;
+	font-family: 'Arial';
+	padding: 50px 100px;
+}
+
+.fondoblanco{
+	width: 70%;
+	display: flex;
+	justify-content: center;
+	text-align: justify;
+}
+
+.textoColumna{
+	text-align: justify;
+	color: #666;
+	font-size: 18px;
+	padding: 20px;
+}
+
+
+.fondoblanco img{
+	margin: 0px auto;	
+}
+
+.fondoblanco strong{
+	color: #0a86c3;
+	font-size: 30px;
+	font-weight: bold;
+	background-color: white;
+	text-align: left;
+}
+
+.fondoblanco h2{
+	background-color: white;
+	font-family: OpenSansLight;
+	text-align: justify;
+	color: #0a86c3;
+}
+
+.txt_naranja{
+	color: #2EA490;
+	font-size: 30px;
+	text-align: justify;
+	font-family: 'ShadowsIntoLight'; /*checar la ubicacion*/
+}
+
+
+.fondoblanco3{
+	width: center;
+	display: flex;
+	justify-content: center;
+	text-align: justify;
+	color: #666;
+}
+
+.fondoblanco3 strong{
+	color: #0a86c3;
+	font-size: 30px;
+	font-weight: bold;
+	background-color: white;
+	text-align: left;
+}
+
+.logotipo{
+	width: 200px;
+	margin-left: 100px;
+	background-color: #2EA490;
+	float: left;
+}
+
+.basura{
+	height: 50px;
+}
