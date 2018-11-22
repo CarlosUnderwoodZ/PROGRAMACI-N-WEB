@@ -1,0 +1,225 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+button{
+    padding: 10px 20px 10px 20px;
+    background-color: darkslategrey;
+    text-decoration: none;
+    color: white;
+}
+
+/* Desktop Design */
+@media only screen and (min-width:901px){
+    .contenedor{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        background-color: #E3FAFF;
+    }
+    .encabezado{
+        height: 15%;
+        background-color: #7EC7D6/*0F85D2 11D6E7 0FA9D2 8EC83B 88B0DE 015D92*/;
+        display: flex;
+        justify-content: space-between;
+    }
+    .contenido{
+        display: flex;
+    }
+    .menu{
+        width: 10%;
+        background-color: #E3FAFF;
+        display: flex;
+        flex-direction: column;
+    }
+    .noticias{
+        width: 75%;
+        background-color: #E3FAFF;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+    }
+    .noticia{
+    	padding: 30px;
+    }
+    .noticia p{
+    	padding: 10px 0;
+    	font-size: 25px;
+    }
+    .anuncio{
+    	position: relative;
+        width: 15%;
+        background-color: #E3FAFF;
+    }
+    .copyright{
+        width: 100%;
+        height: 5%;
+        background-color: #7EC7D6;
+    }
+    #im1{
+        display: block;
+    }
+    #im2{
+        display: none;
+    }
+    #im3{
+        display: none;
+    }
+    .slogan{
+    	display: inline-block;
+    	position: relative;
+    	top: -50px;
+    	right: -50px;
+    	font-size: 50px;
+    	font-style: italic;
+    	font-family: Bradley Hand ITC;
+    }
+    .logo{
+    	display: inline-block;
+    	width: 35%;
+    }
+}
+
+/* Tablet Design*/
+@media only screen and (min-width:401px) and (max-width:900px){
+    .contenedor{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    .encabezado{
+        height: 10%;
+        background-color: #7EC7D6;
+    }
+    .contenido{
+        top: 100px;
+        display: flex;
+        flex-direction: column;
+    }
+    .menu{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        background-color: #E3FAFF;
+    }
+    .noticias{
+        width: 100%;
+        background-color: #E3FAFF;
+    }
+    .anuncio{
+        width: 100%;
+        height: 15%;
+    }
+    .copyright{
+        width: 100%;
+        height: 5%;
+        background-color: #7EC7D6;
+    }
+    #im1{
+        display: none;
+    }
+    #im2{
+        display: none;
+    }
+    #im3{
+        display: block;
+    }
+    .slogan{
+    	display: inline-block;
+        position: relative;
+        top: -23px;
+        right: -25px;
+    	font-size: 20px;
+    	font-style: italic;
+    	font-family: Bradley Hand ITC;
+    }
+    .logo{
+    	display: inline-block;
+    	width: 35%;
+    }
+    .noticia{
+    	padding: 30px;
+    }
+    .noticia p{
+    	padding: 10px 0;
+    	font-size: 20px;
+    }
+}
+
+/* Mobile Design*/
+@media only screen and (max-width:400px){
+    .contenedor{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+    .encabezado{
+        width: 100%;
+        height: 10%;
+        background-color: #7EC7D6;
+    }
+    .contenido{
+        display: flex;
+        flex-direction: column;
+    }
+    .menu{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        background-color: #E3FAFF;
+    }
+    .noticias{
+        width: 100%;
+        background-color: #E3FAFF;
+    }
+    .anuncio{
+        width: 100%;
+        height: 15%;
+    }
+    .copyright{
+        width: 100%;
+        height: 5%;
+        background-color: #7EC7D6;
+    } 
+    #im1{
+        display: none;
+    }
+    #im2{
+        display: none;
+    }
+    #im3{
+        display: block;
+    }
+    button{
+        padding: 10px 20px 10px 20px;
+    	width: 25%;
+    	background-color: darkslategrey;
+    	text-decoration: none;
+    	color: white;
+    	font-size: 9px;
+    }
+    .slogan{
+    	display: inline-block;
+        position: relative;
+        top: -23px;
+        right: -15px;
+    	font-size: 10px;
+    	font-style: italic;
+    	font-family: Bradley Hand ITC;
+    }
+    .logo{
+    	display: inline-block;
+    	width: 35%;
+    }
+	.noticia{
+    	padding: 30px;
+    }
+    .noticia p{
+    	padding: 10px 0;
+    	font-size: 15px;
+    }
+}
