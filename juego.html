@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>PLATINUM MAD</title>
+    <style>
+    	* { padding: 0; margin: 0; }
+    	canvas { background-image: url("Images/bg3.png"); object-fit: cover; display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+<canvas id="myCanvas" width="640" height="480"></canvas>
+
+<script>
+var dir = "Audio/";
+var playlist = ["platinumDisco", "renaiCirculation", "ghostHouse", "hackingToTheGate"];
+var playChar =["Platinum Disco [Famicom ver.] - Nisemonogatari", "Renai Circulation [8bit ver.] - Bakemonogatari", "Ghost House [8bit ver.] - Super Mario World", "Hacking to the Gate [8bit ver.] - Steins;Gate"];
+var ext = ".mp3";
+var audio = new Audio();
+audio.src = dir + playlist[0] + ext; 
+audio.loop = true;
+audio.currentTime = 0;
+audio.play();
+
+var defeat = false;
+var breakb = new Audio();
+breakb.src = "Audio/break.wav";
+var bump = new Audio();
+bump.src = "Audio/bump.wav"
+var lup = new Audio();
+lup.src = "Audio/up1.wav"
+
+var sclear = new Audio();
+sclear.src = "Audio/clear.wav";
+var ggez = new Audio();
+ggez.src = "Audio/ggez.mp3";
+//audio.loop = true;
+//ggez.pause();
+//sclear.pause();
+//audio.load();
+//audio.pause();
+//audio.currentTime = 0;
+//audio.play();
+
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+var ballRadius = 10;
+var x = canvas.width/2;
+var y = canvas.height-40;
+var nivel = 1;
+var vel = 3+nivel;
+var dx = ((Math.floor((Math.random() * 10))%2)*2-1)*vel;
+var dy = -vel;
+var paddleHeight = 10;
+var paddleWidth = 120-20*nivel;
+var paddleX = (canvas.width-paddleWidth)/2;
+var rightPressed = false;
+var leftPressed = false;
+
+var brickRowCount = 8;
+var brickColumnCount = 8;
+var brickWidth = 63;
+var brickHeight = 20;
+var brickPadding = 10;
+var brickOffsetTop = 30;
+var brickOffsetLeft = 30;
+var score = 0;
+var scoreG = 0;
+var lives = 3;
+var newLevel = false;
+var bricks0 = [];
+var bricks = [];
+var bricks1 = [];
+var bricks2 = [];
+var bricksc = [];
+var scores = [19, 35, 52, 44];
+var goalS = 19;
+
+for(a = 0; a < brickRowCount; a++){
+	bricks0[a]=[];
+	bricks[a]=[];
+	bricks1[a]=[];
+	bricks2[a]=[];
+	bricksc[a]=[];
+}
+//bricks
+bricks0[0][0] = { x: 0, y: 0, status: 0 };
+bricks0[0][1] = { x: 0, y: 0, status: 0 };
+bricks0[0][2] = { x: 0, y: 0, status: 0 };
+bricks0[0][3] = { x: 0, y: 0, status: 0 };
+bricks0[0][4] = { x: 0, y: 0, status: 0 };
+bricks0[0][5] = { x: 0, y: 0, status: 0 };
+bricks0[0][6] = { x: 0, y: 0, status: 0 };
+bricks0[0][7] = { x: 0, y: 0, status: 0 };
+
+bricks0[1][0] = { x: 0, y: 0, status: 0 };
+bricks0[1][1] = { x: 0, y: 0, status: 0 };
+bricks0[1][2] = { x: 0, y: 0, status: 1 };
+bricks0[1][3] = { x: 0, y: 0, status: 1 };
+bricks0[1][4] = { x: 0, y: 0, status: 0 };
+bricks0[1][5] = { x: 0, y: 0, status: 0 };
+bricks0[1][6] = { x: 0, y: 0, status: 0 };
+bricks0[1][7] = { x: 0, y: 0, status: 0 };
+
+bricks0[2][0] = { x: 0, y: 0, status: 1 };
+bricks0[2][1] = { x: 0, y: 0, status: 1 };
+bricks0[2][2] = { x: 0, y: 0, status: 0 };
+bricks0[2][3] = { x: 0, y: 0, status: 1 };
+bricks0[2][4] = { x: 0, y: 0, status: 0 };
+bricks0[2][5] = { x: 0, y: 0, status: 1 };
+bricks0[2][6] = { x: 0, y: 0, status: 1 };
+bricks0[2][7] = { x: 0, y: 0, status: 0 };
+
+bricks0[3][0] = { x: 0, y: 0, status: 0 };
+bricks0[3][1] = { x: 0, y: 0, status: 1 };
+bricks0[3][2] = { x: 0, y: 0, status: 1 };
+bricks0[3][3] = { x: 0, y: 0, status: 1 };
+bricks0[3][4] = { x: 0, y: 0, status: 1 };
+bricks0[3][5] = { x: 0, y: 0, status: 1 };
+bricks0[3][6] = { x: 0, y: 0, status: 0 };
+bricks0[3][7] = { x: 0, y: 0, status: 0 };
+
+bricks0[4][0] = { x: 0, y: 0, status: 0 };
+bricks0[4][1] = { x: 0, y: 0, status: 0 };
+bricks0[4][2] = { x: 0, y: 0, status: 1 };
+bricks0[4][3] = { x: 0, y: 0, status: 1 };
+bricks0[4][4] = { x: 0, y: 0, status: 1 };
+bricks0[4][5] = { x: 0, y: 0, status: 0 };
+bricks0[4][6] = { x: 0, y: 0, status: 0 };
+bricks0[4][7] = { x: 0, y: 0, status: 0 };
+
+bricks0[5][0] = { x: 0, y: 0, status: 0 };
+bricks0[5][1] = { x: 0, y: 0, status: 0 };
+bricks0[5][2] = { x: 0, y: 0, status: 0 };
+bricks0[5][3] = { x: 0, y: 0, status: 1 };
+bricks0[5][4] = { x: 0, y: 0, status: 0 };
+bricks0[5][5] = { x: 0, y: 0, status: 0 };
+bricks0[5][6] = { x: 0, y: 0, status: 0 };
+bricks0[5][7] = { x: 0, y: 0, status: 0 };
+
+bricks0[6][0] = { x: 0, y: 0, status: 0 };
+bricks0[6][1] = { x: 0, y: 0, status: 0 };
+bricks0[6][2] = { x: 0, y: 0, status: 1 };
+bricks0[6][3] = { x: 0, y: 0, status: 1 };
+bricks0[6][4] = { x: 0, y: 0, status: 1 };
+bricks0[6][5] = { x: 0, y: 0, status: 0 };
+bricks0[6][6] = { x: 0, y: 0, status: 0 };
+bricks0[6][7] = { x: 0, y: 0, status: 0 };
+
+bricks0[7][0] = { x: 0, y: 0, status: 0 };
+bricks0[7][1] = { x: 0, y: 0, status: 0 };
+bricks0[7][2] = { x: 0, y: 0, status: 0 };
+bricks0[7][3] = { x: 0, y: 0, status: 0 };
+bricks0[7][4] = { x: 0, y: 0, status: 0 };
+bricks0[7][5] = { x: 0, y: 0, status: 0 };
+bricks0[7][6] = { x: 0, y: 0, status: 0 };
+bricks0[7][7] = { x: 0, y: 0, status: 0 };
+
+for (i = 0; i < brickColumnCount; i++){
+	for (j = 0; j < brickColumnCount; j++){
+		bricksc[i][j] = bricks0[i][j];
+		//bricksc[i][j].y = bricks0[i][j].y;
+		//bricksc[i][j].status = bricks0[i][j].status;
+	}
+}
+
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+document.addEventListener("mousemove", mouseMoveHandler, false);
+
+function keyDownHandler(e) {
+    if(e.keyCode == 39) {
+        rightPressed = true;
+    }
+    else if(e.keyCode == 37) {
+        leftPressed = true;
+    }
+}
+
+function keyUpHandler(e) {
+    if(e.keyCode == 39) {
+        rightPressed = false;
+    }
+    else if(e.keyCode == 37) {
+        leftPressed = false;
+    }
+}
+
+function mouseMoveHandler(e) {
+    var relativeX = e.clientX - canvas.offsetLeft;
+    if(relativeX > 0 && relativeX < canvas.width) {
+        paddleX = relativeX - paddleWidth/2;
+    }
+}
+
+function collisionDetection() {
+    for(c=0; c<brickColumnCount; c++) {
+        for(r=0; r<brickRowCount; r++) {
+			var b = bricksc[c][r];
+			
+			if(b.status == 1) {
+                if((x +5 > b.x && x-5 < b.x + brickWidth) && (y +5 < b.y + brickHeight) && (y -5 > b.y)){
+                    dy = -dy;
+                    b.status = 0;
+					breakb.play();
+                    score++;
+					scoreG++;
+					if(scoreG != 0 && scoreG%50 == 0){
+						lup.play();
+						lives++;
+					}
+                    if(score == goalS) {
+						breakb.pause();
+						audio.pause();
+						sclear.currentTime = 0;
+						sclear.play();
+                        //alert("YOU WIN, CONGRATS!");
+						newLevel = true;
+						//requestAnimationFrame(draw);
+						//draw();
+                        //document.location.reload();
+                    }
+                }else if((y +5 > b.y && y-5 < b.y + brickHeight) && (x +5 < b.x + brickWidth) && (x -5 > b.x)) {
+                    dy = -dy;
+                    b.status = 0;
+					breakb.play();
+                    score++;
+					scoreG++;
+					if(scoreG != 0 && scoreG%50 == 0){
+						lup.play();
+						lives++;
+					}
+                    if(score == goalS) {
+						breakb.pause();
+						audio.pause();
+						sclear.currentTime = 0;
+						sclear.play();
+					    //alert("YOU WIN, CONGRATS!");
+						newLevel = true;
+					}
+                    
+						//requestAnimationFrame(draw);
+						//draw();
+                        //document.location.reload();
+                    
+                }
+            }
+        }
+    }
+}
+
+function drawBall() {
+    ctx.beginPath();
+    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+    ctx.fillStyle = "white";
+    ctx.fill();
+    ctx.closePath();
+}
+
+function drawPaddle() {
+    ctx.beginPath();
+    ctx.rect(paddleX, canvas.height-paddleHeight-25, paddleWidth, paddleHeight);
+    ctx.fillStyle = "white";
+    ctx.fill();
+    ctx.closePath();
+}
+
+function drawBricks() {
+    for(c=0; c<brickColumnCount; c++) {
+        for(r=0; r<brickRowCount; r++) {
+            if(bricksc[c][r].status == 1) {
+                var brickX = (r*(brickWidth+brickPadding))+brickOffsetLeft;
+                var brickY = (c*(brickHeight+brickPadding))+brickOffsetTop;
+                
+				bricksc[c][r].x = brickX;
+				bricksc[c][r].y = brickY; 
+				
+				ctx.beginPath();
+                ctx.rect(brickX, brickY, brickWidth, brickHeight);
+				if (c == 0){	
+					ctx.fillStyle = "red";
+                }else if (c == 1){	
+					ctx.fillStyle = "orange";
+                }else if (c == 2){	
+					ctx.fillStyle = "yellow";
+                }else if (c == 3){	
+					ctx.fillStyle = "lime";
+                }else if (c == 4){	
+					ctx.fillStyle = "aqua";
+                }else if (c == 5){	
+					ctx.fillStyle = "blue";
+                }else if (c == 6){	
+					ctx.fillStyle = "#FF00FF";
+                }else{	
+					ctx.fillStyle = "purple";
+                } 
+				ctx.fill();
+                ctx.closePath();
+            }
+        }
+    }
+}
+
+function drawScore() {
+    ctx.font = "16px Courier";
+    ctx.fillStyle = "white";
+    ctx.fillText("Score: "+scoreG, 8, 20);
+}
+
+function drawLevel() {
+    ctx.font = "16px Courier";
+    ctx.fillStyle = "white";
+    ctx.fillText("Level: "+nivel, canvas.width-360, 20);
+}
+
+function drawLives() {
+    ctx.font = "16px Courier";
+    ctx.fillStyle = "white";
+    ctx.fillText("Lives: "+lives, canvas.width-85, 20);
+}
+
+function drawSong(){
+	ctx.font = "16px Courier";
+	ctx.fillStyle = "white";
+	ctx.fillText("Song: " + playChar[nivel-1], 65, canvas.height-10);
+}
+
+function draw() {
+	if (newLevel == true){
+		//ggez.pause();
+		//sclear.pause();
+		newLevel = false
+		x = canvas.width/2;
+		y = canvas.height-40;
+		nivel = nivel%4 +1;
+		if (defeat == true){
+			nivel = 1;
+			defeat = false;
+			lives = 3;
+			scoreG = 0;
+			alert("GAME OVER");
+		}else{
+			alert("YOU WIN, CONGRATS!");
+		}
+		ggez.pause();
+		sclear.pause();
+		
+		vel = 2+nivel;
+		dx = ((Math.floor((Math.random() * 10))%2)*2-1)*vel;;
+		dy = -vel;
+		paddleWidth = 150 - 20*nivel;
+		paddleX = (canvas.width-paddleWidth)/2;
+		score = 0;
+		rightPressed = false;
+		leftPressed = false;
+		goalS = scores[nivel -1];
+		//lives = 3;
+		//bricks
+bricks0[0][0] = { x: 0, y: 0, status: 0 };
+bricks0[0][1] = { x: 0, y: 0, status: 0 };
+bricks0[0][2] = { x: 0, y: 0, status: 0 };
+bricks0[0][3] = { x: 0, y: 0, status: 0 };
+bricks0[0][4] = { x: 0, y: 0, status: 0 };
+bricks0[0][5] = { x: 0, y: 0, status: 0 };
+bricks0[0][6] = { x: 0, y: 0, status: 0 };
+bricks0[0][7] = { x: 0, y: 0, status: 0 };
+
+bricks0[1][0] = { x: 0, y: 0, status: 0 };
+bricks0[1][1] = { x: 0, y: 0, status: 0 };
+bricks0[1][2] = { x: 0, y: 0, status: 1 };
+bricks0[1][3] = { x: 0, y: 0, status: 1 };
+bricks0[1][4] = { x: 0, y: 0, status: 0 };
+bricks0[1][5] = { x: 0, y: 0, status: 0 };
+bricks0[1][6] = { x: 0, y: 0, status: 0 };
+bricks0[1][7] = { x: 0, y: 0, status: 0 };
+
+bricks0[2][0] = { x: 0, y: 0, status: 1 };
+bricks0[2][1] = { x: 0, y: 0, status: 1};
+bricks0[2][2] = { x: 0, y: 0, status: 0 };
+bricks0[2][3] = { x: 0, y: 0, status: 1 };
+bricks0[2][4] = { x: 0, y: 0, status: 0 };
+bricks0[2][5] = { x: 0, y: 0, status: 1 };
+bricks0[2][6] = { x: 0, y: 0, status: 1 };
+bricks0[2][7] = { x: 0, y: 0, status: 0 };
+
+bricks0[3][0] = { x: 0, y: 0, status: 0 };
+bricks0[3][1] = { x: 0, y: 0, status: 1 };
+bricks0[3][2] = { x: 0, y: 0, status: 1 };
+bricks0[3][3] = { x: 0, y: 0, status: 1 };
+bricks0[3][4] = { x: 0, y: 0, status: 1 };
+bricks0[3][5] = { x: 0, y: 0, status: 1 };
+bricks0[3][6] = { x: 0, y: 0, status: 0 };
+bricks0[3][7] = { x: 0, y: 0, status: 0 };
+
+bricks0[4][0] = { x: 0, y: 0, status: 0 };
+bricks0[4][1] = { x: 0, y: 0, status: 0 };
+bricks0[4][2] = { x: 0, y: 0, status: 1 };
+bricks0[4][3] = { x: 0, y: 0, status: 1 };
+bricks0[4][4] = { x: 0, y: 0, status: 1 };
+bricks0[4][5] = { x: 0, y: 0, status: 0 };
+bricks0[4][6] = { x: 0, y: 0, status: 0 };
+bricks0[4][7] = { x: 0, y: 0, status: 0 };
+
+bricks0[5][0] = { x: 0, y: 0, status: 0 };
+bricks0[5][1] = { x: 0, y: 0, status: 0 };
+bricks0[5][2] = { x: 0, y: 0, status: 0 };
+bricks0[5][3] = { x: 0, y: 0, status: 1 };
+bricks0[5][4] = { x: 0, y: 0, status: 0 };
+bricks0[5][5] = { x: 0, y: 0, status: 0 };
+bricks0[5][6] = { x: 0, y: 0, status: 0 };
+bricks0[5][7] = { x: 0, y: 0, status: 0 };
+
+bricks0[6][0] = { x: 0, y: 0, status: 0 };
+bricks0[6][1] = { x: 0, y: 0, status: 0 };
+bricks0[6][2] = { x: 0, y: 0, status: 1 };
+bricks0[6][3] = { x: 0, y: 0, status: 1 };
+bricks0[6][4] = { x: 0, y: 0, status: 1 };
+bricks0[6][5] = { x: 0, y: 0, status: 0 };
+bricks0[6][6] = { x: 0, y: 0, status: 0 };
+bricks0[6][7] = { x: 0, y: 0, status: 0 };
+
+bricks0[7][0] = { x: 0, y: 0, status: 0 };
+bricks0[7][1] = { x: 0, y: 0, status: 0 };
+bricks0[7][2] = { x: 0, y: 0, status: 0 };
+bricks0[7][3] = { x: 0, y: 0, status: 0 };
+bricks0[7][4] = { x: 0, y: 0, status: 0 };
+bricks0[7][5] = { x: 0, y: 0, status: 0 };
+bricks0[7][6] = { x: 0, y: 0, status: 0 };
+bricks0[7][7] = { x: 0, y: 0, status: 0 };
+
+//bricks
+bricks[0][0] = { x: 0, y: 0, status: 0 };
+bricks[0][1] = { x: 0, y: 0, status: 0 };
+bricks[0][2] = { x: 0, y: 0, status: 0 };
+bricks[0][3] = { x: 0, y: 0, status: 1 };
+bricks[0][4] = { x: 0, y: 0, status: 1 };
+bricks[0][5] = { x: 0, y: 0, status: 1 };
+bricks[0][6] = { x: 0, y: 0, status: 1 };
+bricks[0][7] = { x: 0, y: 0, status: 0 };
+
+bricks[1][0] = { x: 0, y: 0, status: 0 };
+bricks[1][1] = { x: 0, y: 0, status: 1 };
+bricks[1][2] = { x: 0, y: 0, status: 1 };
+bricks[1][3] = { x: 0, y: 0, status: 1 };
+bricks[1][4] = { x: 0, y: 0, status: 1 };
+bricks[1][5] = { x: 0, y: 0, status: 1 };
+bricks[1][6] = { x: 0, y: 0, status: 1 };
+bricks[1][7] = { x: 0, y: 0, status: 1 };
+
+bricks[2][0] = { x: 0, y: 0, status: 1 };
+bricks[2][1] = { x: 0, y: 0, status: 1 };
+bricks[2][2] = { x: 0, y: 0, status: 0 };
+bricks[2][3] = { x: 0, y: 0, status: 1 };
+bricks[2][4] = { x: 0, y: 0, status: 0 };
+bricks[2][5] = { x: 0, y: 0, status: 0 };
+bricks[2][6] = { x: 0, y: 0, status: 1 };
+bricks[2][7] = { x: 0, y: 0, status: 1 };
+
+bricks[3][0] = { x: 0, y: 0, status: 1 };
+bricks[3][1] = { x: 0, y: 0, status: 1 };
+bricks[3][2] = { x: 0, y: 0, status: 1 };
+bricks[3][3] = { x: 0, y: 0, status: 1 };
+bricks[3][4] = { x: 0, y: 0, status: 0 };
+bricks[3][5] = { x: 0, y: 0, status: 0 };
+bricks[3][6] = { x: 0, y: 0, status: 1 };
+bricks[3][7] = { x: 0, y: 0, status: 1 };
+
+bricks[4][0] = { x: 0, y: 0, status: 1 };
+bricks[4][1] = { x: 0, y: 0, status: 0 };
+bricks[4][2] = { x: 0, y: 0, status: 0 };
+bricks[4][3] = { x: 0, y: 0, status: 1 };
+bricks[4][4] = { x: 0, y: 0, status: 0 };
+bricks[4][5] = { x: 0, y: 0, status: 0 };
+bricks[4][6] = { x: 0, y: 0, status: 0 };
+bricks[4][7] = { x: 0, y: 0, status: 1 };
+
+bricks[5][0] = { x: 0, y: 0, status: 0 };
+bricks[5][1] = { x: 0, y: 0, status: 0 };
+bricks[5][2] = { x: 0, y: 0, status: 1 };
+bricks[5][3] = { x: 0, y: 0, status: 0 };
+bricks[5][4] = { x: 0, y: 0, status: 0 };
+bricks[5][5] = { x: 0, y: 0, status: 0 };
+bricks[5][6] = { x: 0, y: 0, status: 0 };
+bricks[5][7] = { x: 0, y: 0, status: 1 };
+
+bricks[6][0] = { x: 0, y: 0, status: 0 };
+bricks[6][1] = { x: 0, y: 0, status: 1 };
+bricks[6][2] = { x: 0, y: 0, status: 0 };
+bricks[6][3] = { x: 0, y: 0, status: 0 };
+bricks[6][4] = { x: 0, y: 0, status: 1 };
+bricks[6][5] = { x: 0, y: 0, status: 1 };
+bricks[6][6] = { x: 0, y: 0, status: 0 };
+bricks[6][7] = { x: 0, y: 0, status: 1 };
+
+bricks[7][0] = { x: 0, y: 0, status: 0 };
+bricks[7][1] = { x: 0, y: 0, status: 0 };
+bricks[7][2] = { x: 0, y: 0, status: 0 };
+bricks[7][3] = { x: 0, y: 0, status: 1 };
+bricks[7][4] = { x: 0, y: 0, status: 0 };
+bricks[7][5] = { x: 0, y: 0, status: 1 };
+bricks[7][6] = { x: 0, y: 0, status: 1 };
+bricks[7][7] = { x: 0, y: 0, status: 1 };
+
+//bricks1
+bricks1[0][0] = { x: 0, y: 0, status: 1 };
+bricks1[0][1] = { x: 0, y: 0, status: 1 };
+bricks1[0][2] = { x: 0, y: 0, status: 0 };
+bricks1[0][3] = { x: 0, y: 0, status: 0 };
+bricks1[0][4] = { x: 0, y: 0, status: 0 };
+bricks1[0][5] = { x: 0, y: 0, status: 0 };
+bricks1[0][6] = { x: 0, y: 0, status: 1 };
+bricks1[0][7] = { x: 0, y: 0, status: 1 };
+
+bricks1[1][0] = { x: 0, y: 0, status: 1 };
+bricks1[1][1] = { x: 0, y: 0, status: 1 };
+bricks1[1][2] = { x: 0, y: 0, status: 1 };
+bricks1[1][3] = { x: 0, y: 0, status: 1 };
+bricks1[1][4] = { x: 0, y: 0, status: 1 };
+bricks1[1][5] = { x: 0, y: 0, status: 1 };
+bricks1[1][6] = { x: 0, y: 0, status: 1 };
+bricks1[1][7] = { x: 0, y: 0, status: 1 };
+
+bricks1[2][0] = { x: 0, y: 0, status: 0 };
+bricks1[2][1] = { x: 0, y: 0, status: 0 };
+bricks1[2][2] = { x: 0, y: 0, status: 1 };
+bricks1[2][3] = { x: 0, y: 0, status: 1 };
+bricks1[2][4] = { x: 0, y: 0, status: 1 };
+bricks1[2][5] = { x: 0, y: 0, status: 1 };
+bricks1[2][6] = { x: 0, y: 0, status: 0 };
+bricks1[2][7] = { x: 0, y: 0, status: 0 };
+
+bricks1[3][0] = { x: 0, y: 0, status: 0 };
+bricks1[3][1] = { x: 0, y: 0, status: 1 };
+bricks1[3][2] = { x: 0, y: 0, status: 1 };
+bricks1[3][3] = { x: 0, y: 0, status: 1 };
+bricks1[3][4] = { x: 0, y: 0, status: 1 };
+bricks1[3][5] = { x: 0, y: 0, status: 1 };
+bricks1[3][6] = { x: 0, y: 0, status: 1 };
+bricks1[3][7] = { x: 0, y: 0, status: 0 };
+
+bricks1[4][0] = { x: 0, y: 0, status: 1 };
+bricks1[4][1] = { x: 0, y: 0, status: 1 };
+bricks1[4][2] = { x: 0, y: 0, status: 0 };
+bricks1[4][3] = { x: 0, y: 0, status: 1 };
+bricks1[4][4] = { x: 0, y: 0, status: 1 };
+bricks1[4][5] = { x: 0, y: 0, status: 0 };
+bricks1[4][6] = { x: 0, y: 0, status: 1 };
+bricks1[4][7] = { x: 0, y: 0, status: 1 };
+
+bricks1[5][0] = { x: 0, y: 0, status: 1 };
+bricks1[5][1] = { x: 0, y: 0, status: 1 };
+bricks1[5][2] = { x: 0, y: 0, status: 1 };
+bricks1[5][3] = { x: 0, y: 0, status: 1 };
+bricks1[5][4] = { x: 0, y: 0, status: 1 };
+bricks1[5][5] = { x: 0, y: 0, status: 1 };
+bricks1[5][6] = { x: 0, y: 0, status: 1 };
+bricks1[5][7] = { x: 0, y: 0, status: 1 };
+
+bricks1[6][0] = { x: 0, y: 0, status: 0 };
+bricks1[6][1] = { x: 0, y: 0, status: 1 };
+bricks1[6][2] = { x: 0, y: 0, status: 1 };
+bricks1[6][3] = { x: 0, y: 0, status: 1 };
+bricks1[6][4] = { x: 0, y: 0, status: 1 };
+bricks1[6][5] = { x: 0, y: 0, status: 1 };
+bricks1[6][6] = { x: 0, y: 0, status: 1 };
+bricks1[6][7] = { x: 0, y: 0, status: 0 };
+
+bricks1[7][0] = { x: 0, y: 0, status: 0 };
+bricks1[7][1] = { x: 0, y: 0, status: 0 };
+bricks1[7][2] = { x: 0, y: 0, status: 0 };
+bricks1[7][3] = { x: 0, y: 0, status: 1 };
+bricks1[7][4] = { x: 0, y: 0, status: 1 };
+bricks1[7][5] = { x: 0, y: 0, status: 0 };
+bricks1[7][6] = { x: 0, y: 0, status: 0 };
+bricks1[7][7] = { x: 0, y: 0, status: 0 };
+
+//bricks2
+bricks2[0][0] = { x: 0, y: 0, status: 0 };
+bricks2[0][1] = { x: 0, y: 0, status: 1 };
+bricks2[0][2] = { x: 0, y: 0, status: 1 };
+bricks2[0][3] = { x: 0, y: 0, status: 1 };
+bricks2[0][4] = { x: 0, y: 0, status: 1 };
+bricks2[0][5] = { x: 0, y: 0, status: 1 };
+bricks2[0][6] = { x: 0, y: 0, status: 1 };
+bricks2[0][7] = { x: 0, y: 0, status: 0 };
+
+bricks2[1][0] = { x: 0, y: 0, status: 1 };
+bricks2[1][1] = { x: 0, y: 0, status: 1 };
+bricks2[1][2] = { x: 0, y: 0, status: 1 };
+bricks2[1][3] = { x: 0, y: 0, status: 1 };
+bricks2[1][4] = { x: 0, y: 0, status: 1 };
+bricks2[1][5] = { x: 0, y: 0, status: 1 };
+bricks2[1][6] = { x: 0, y: 0, status: 1 };
+bricks2[1][7] = { x: 0, y: 0, status: 1 };
+
+bricks2[2][0] = { x: 0, y: 0, status: 1 };
+bricks2[2][1] = { x: 0, y: 0, status: 1 };
+bricks2[2][2] = { x: 0, y: 0, status: 1 };
+bricks2[2][3] = { x: 0, y: 0, status: 1 };
+bricks2[2][4] = { x: 0, y: 0, status: 1 };
+bricks2[2][5] = { x: 0, y: 0, status: 1 };
+bricks2[2][6] = { x: 0, y: 0, status: 1 };
+bricks2[2][7] = { x: 0, y: 0, status: 1 };
+
+bricks2[3][0] = { x: 0, y: 0, status: 1 };
+bricks2[3][1] = { x: 0, y: 0, status: 1 };
+bricks2[3][2] = { x: 0, y: 0, status: 0 };
+bricks2[3][3] = { x: 0, y: 0, status: 1 };
+bricks2[3][4] = { x: 0, y: 0, status: 1 };
+bricks2[3][5] = { x: 0, y: 0, status: 0 };
+bricks2[3][6] = { x: 0, y: 0, status: 1 };
+bricks2[3][7] = { x: 0, y: 0, status: 1 };
+
+bricks2[4][0] = { x: 0, y: 0, status: 1 };
+bricks2[4][1] = { x: 0, y: 0, status: 1 };
+bricks2[4][2] = { x: 0, y: 0, status: 0 };
+bricks2[4][3] = { x: 0, y: 0, status: 1 };
+bricks2[4][4] = { x: 0, y: 0, status: 1 };
+bricks2[4][5] = { x: 0, y: 0, status: 0 };
+bricks2[4][6] = { x: 0, y: 0, status: 1 };
+bricks2[4][7] = { x: 0, y: 0, status: 1 };
+
+bricks2[5][0] = { x: 0, y: 0, status: 1 };
+bricks2[5][1] = { x: 0, y: 0, status: 1 };
+bricks2[5][2] = { x: 0, y: 0, status: 1 };
+bricks2[5][3] = { x: 0, y: 0, status: 1 };
+bricks2[5][4] = { x: 0, y: 0, status: 1 };
+bricks2[5][5] = { x: 0, y: 0, status: 1 };
+bricks2[5][6] = { x: 0, y: 0, status: 1 };
+bricks2[5][7] = { x: 0, y: 0, status: 1 };
+
+bricks2[6][0] = { x: 0, y: 0, status: 0 };
+bricks2[6][1] = { x: 0, y: 0, status: 1 };
+bricks2[6][2] = { x: 0, y: 0, status: 1 };
+bricks2[6][3] = { x: 0, y: 0, status: 1 };
+bricks2[6][4] = { x: 0, y: 0, status: 1 };
+bricks2[6][5] = { x: 0, y: 0, status: 1 };
+bricks2[6][6] = { x: 0, y: 0, status: 1 };
+bricks2[6][7] = { x: 0, y: 0, status: 0 };
+
+bricks2[7][0] = { x: 0, y: 0, status: 0 };
+bricks2[7][1] = { x: 0, y: 0, status: 1 };
+bricks2[7][2] = { x: 0, y: 0, status: 0 };
+bricks2[7][3] = { x: 0, y: 0, status: 1 };
+bricks2[7][4] = { x: 0, y: 0, status: 1 };
+bricks2[7][5] = { x: 0, y: 0, status: 0 };
+bricks2[7][6] = { x: 0, y: 0, status: 1 };
+bricks2[7][7] = { x: 0, y: 0, status: 0 };
+		//bricks c
+		for (b = 0; b < brickColumnCount; b++){
+			for (bb = 0; bb < brickColumnCount; bb++){
+				if (nivel == 1){
+					bricksc[b][bb] = bricks0[b][bb];
+					//bricksc[b][bb].y = bricks0[b][bb].y;
+					//bricksc[b][bb].status = bricks0[b][bb].status;
+				}else if (nivel == 2){
+					bricksc[b][bb] = bricks[b][bb];
+					//bricksc[b][bb].y = bricks0[b][bb].y;
+					//bricksc[b][bb].status = bricks0[b][bb].status;
+				}else if (nivel == 3){
+					bricksc[b][bb] = bricks2[b][bb]
+				}else if (nivel == 4){
+					bricksc[b][bb] = bricks1[b][bb];
+				}		
+			}
+		}
+		
+		audio.src = dir + playlist[nivel -1] + ext;
+		audio.currentTime = 0;
+	}
+	//ggez.pause();
+	//sclear.pause();
+	
+	audio.loop = true;
+	audio.play();
+	
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawBricks();
+    drawBall();
+    drawPaddle();
+    drawScore();
+	drawLevel();
+    drawLives();
+	drawSong();
+    collisionDetection();
+    
+    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+        dx = -dx;
+		bump.play();
+    }
+    if(y + dy < ballRadius) {
+        dy = -dy;
+		bump.play();
+    }
+    else if(y + dy +5> canvas.height-ballRadius-25) {
+        if(x > paddleX && x < paddleX + paddleWidth) {//contacto con paddle
+            //vel = -5*(paddleX - x);	//cambia direccion
+			var aux = dx + vel*(2*x - 2*paddleX - paddleWidth)/paddleWidth;	//cambia direccion
+			dx =  aux;
+			dy = -dy;
+			bump.play();
+        }
+        else {
+            lives--;
+            if(!lives) {
+				//audio.pause();
+				//ggez.load();
+				//ggez.currentTime = 0;
+				//ggez.play();
+                //breakb.pause();
+				//audio.src = "Audio/up1.wav";
+				audio.pause();
+				ggez.currentTime = 0;
+				ggez.play();
+				//alert("GAME OVER");
+				//ggez.load();
+                defeat = true;
+				newLevel = true;
+            }
+            else{ 
+				x = canvas.width/2;
+				y = canvas.height-40;
+				dx = vel;
+				dy = -vel;
+				paddleX = (canvas.width-paddleWidth)/2;
+			}
+        }
+    }
+    
+    if(rightPressed && paddleX < canvas.width-paddleWidth) {
+        paddleX += 7;
+    }
+    else if(leftPressed && paddleX > 0) {
+        paddleX -= 7;
+    }
+    
+	
+    x += dx;
+    y += dy;
+    requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
+</body>
+</html>
