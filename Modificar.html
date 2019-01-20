@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='UTF-8'/>
+	<title>Modificar</title>
+</head>
+<body>
+	<form action="Modificar.php" method="post">
+		<p>Ingresa Id para buscar: <input type="number" name="id" /></p>
+		<p>Nombre: <input type="text" name="nombre" maxlength="50" minlength="1" /></p>
+		<p>Apellido: <input type="text" name="apellido" maxlength="50" minlength="1" /></p>
+		<p>Sexo:</p>
+		<p> Masculino: <input type="radio" name="sexo" value="M" />
+            Femenino: <input type="radio" name="sexo" value="F" /> </p>
+        <p>Edad: <input type="number" name="edad" /></p>
+        <p>Dirección: <textarea rows="4" cols="20" name="direccion" maxlength="300"></textarea> </p>
+        <button type="submit" name="guardar">Guardar</button>
+    </form>
+	</br><a href='vinculos.html'>Regresar</a>
+</body>
+</html>

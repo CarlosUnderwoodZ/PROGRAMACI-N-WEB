@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='UTF-8'/>
+	<title>Crear</title>
+</head>
+<body>
+	<form action="Crear.php" method="post">
+		<p>Nombre: <input type="text" name="nombre" minlength="1" maxlength="50" /></p>
+		<p>Apellido: <input type="text" name="apellido" minlength="1" maxlength="50" /></p>
+		<p>Sexo:</p>
+		<p> Masculino: <input type="radio" name="sexo" value="M" />
+            Femenino: <input type="radio" name="sexo" value="F" /> </p>
+        <p>Edad: <input type="number" name="edad" /></p>
+        <p>Dirección: <textarea rows="4" cols="20" name="direccion" maxlength="300"></textarea> </p>
+        <button type="submit" name="crear">Crear</button>
+    </form>
+	</br>
+	<a href='vinculos.html'>Regresar</a>
+</body>
+</html>
